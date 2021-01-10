@@ -45,3 +45,9 @@ docker-machine create --driver digitalocean --digitalocean-access-token <xxxxx> 
 docker-machine create --driver digitalocean --digitalocean-access-token <xxxxx> swarm-node
 docker swarm init --advertise-addr <public-ip>
 docker-machine ssh swarm-node  AND THEN EXECUTE docker swarm join --token <token> <ip:puerto>
+
+docker stack deploy --compose-file docker-compose-prod.yml dockerapp_stack
+docker stack ls
+docker stack services dockerapp_stack
+docker-machine ls
+docker stack rm
