@@ -1,0 +1,26 @@
+version: '3'
+services:
+#Los contenedores que se van a correr
+    dockerapp:
+        #Se pone . porque el Dockerfile esta en el mismo directorio que este yml file
+        build: .
+        #host-port:container-port --> Is analog to -p in docker run
+        ports:
+            - "5000:5000"
+        #Indica que primero debe subirse el contenedor redis
+        depends_on:
+            - redis
+        #Conecta a la red que creo al final de este archivo
+        networks:
+            - my_net
+    redis:
+        #En este caso redis no tiene Dockerfile sino imagen
+        image: redis:3.2.0
+        networks:
+            - my_net
+#Creo una red para los contenedores
+#Sino especifico, por defecto crea una bridge
+networks:
+    my_net:
+        driver: bridge
+            

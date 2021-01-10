@@ -1,0 +1,47 @@
+docker images
+docker ps -a
+docker exec -it <id> bash
+docker build -t dockerapp:v0.3 . 
+docker run -d --rm -p 5000:5000 dockerapp:v0.2
+docker run -it --rm ubuntu:21.04
+docker rm <id>
+docker stop <id>
+docker history <name or id>
+docker inspect <id>
+docker commit <id> ubuntu-expe:1.0
+docker tag <id> <tag_name>
+docker login --username=danielcampu
+
+docker run -d --name redis redis:3.2.0
+docker run -d -p 5000:5000 --link redis dockerapp:v0.3
+
+docker-compose up
+docker-compose build
+docker-compose ps
+docker-compose stop
+docker-compose rm
+
+docker network ls
+docker run -it --rm --net none busybox:1.32.0   !!!!!!None network (isolated) 
+
+docker network create --driver bridge my_bridge_network
+docker network inspect my_bridge_network
+docker run -it --name container_3 --net my_bridge_network busybox:1.32.0
+docker network connect bridge container_3       !!!Conecta el contenedor tambien a la red bridge --> Queda conectado a dos redes bridge (my_bridge_network, bridge)
+docker exec -it container_3 ifconfig
+docker network disconnect bridge container_3
+
+docker run -it --rm --net host busybox:1.32.0
+
+docker-compose run dockerapp python test.py   !! Corre un comando en una de las aplicaciones
+
+docker-machine ls
+docker-machine create --driver digitalocean --digitalocean-access-token <xxxxx> docker-app-machine
+docker-machine env docker-app-machine
+docker-compose -f docker-compose-prod.yml up -d          !!Despliega los contenedores en la maquina virtual remota
+
+docker-machine create --driver digitalocean --digitalocean-access-token <xxxxx> swarm-manager
+!!hacer lo de arriba
+docker-machine create --driver digitalocean --digitalocean-access-token <xxxxx> swarm-node
+docker swarm init --advertise-addr <public-ip>
+docker-machine ssh swarm-node  AND THEN EXECUTE docker swarm join --token <token> <ip:puerto>
